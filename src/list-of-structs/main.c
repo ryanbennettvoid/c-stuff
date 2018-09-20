@@ -1,11 +1,14 @@
 
 // word counting with linked list of structs
 
+// usage: binary < file.txt
+
+#define MAX_STR 1000
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-char *bigString = "this is a really big string and this string is a cool one";
+#include <ctype.h>
 
 struct WordInfo
 {
@@ -18,7 +21,7 @@ void printCounts( struct WordInfo *head )
 {
   while ( head )
   {
-    printf( "%s\t%d\n", head->word, head->count );
+    printf( "%s:\t\t%d\n", head->word, head->count );
     head = head->next;
   }
 }
@@ -47,21 +50,24 @@ void addWord( struct WordInfo *head, char *word )
 int main()
 {
 
+  char str[MAX_STR];
+  int n;
+
+  for ( n = 0; n < MAX_STR && (str[n] = tolower(getchar())) != EOF; n++ )
+    ;
+
   struct WordInfo head;
   head.word = "PLACEHOLDER";
   head.count = 0;
   head.next = NULL;
 
-  // TODO: turn string of words into array
-  // of words and add them
+  char *delim = " ,.";
+  char *word = strtok( str, delim );
 
-  addWord( &head, "foo" );
-  addWord( &head, "foo" );
-  addWord( &head, "foo" );
-  addWord( &head, "cake" );
-  addWord( &head, "tiger" );
-  addWord( &head, "foo" );
-  addWord( &head, "cake" );
+  while ( word ) {
+    addWord( &head, word );
+    word = strtok( NULL, delim );
+  }
 
   printCounts( &head );
 
