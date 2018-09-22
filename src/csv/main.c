@@ -54,14 +54,11 @@ int main( int argc, char *argv[] )
 
   struct Table table;
   table.header = NULL;
-
   makeTable( &table, f );
-
   assert( table.numRows == 1671954 );
-
-  // printTable( &table );
-
   printf( "processed %d rows by %d cols\n", table.numRows, table.numCols );
+
+  printTable( &table );
 
   fclose( f );
 
@@ -72,6 +69,12 @@ void makeTable( struct Table *table, FILE *file )
 {
 
   int numCols = getNumColumns( file );
+  if ( numCols == 0 )
+  {
+    fprintf( stderr, "no columns found in file\n");
+    exit( 1 );
+  }
+  rewind( file );
   table->numCols = numCols;
 
   char  buffer[LINE_BUFFER_SIZE],
@@ -159,7 +162,19 @@ void makeTable( struct Table *table, FILE *file )
 
 int getNumColumns( FILE *file )
 {
-  return 3;
+  char buffer[LINE_BUFFER_SIZE];
+  int numCommas = 0;
+  int linePos = 0;
+  if ( (fgets(buffer, LINE_BUFFER_SIZE, file)) != NULL )
+  {
+    while ( buffer[linePos] != '\0' )
+    {
+      if ( buffer[linePos] == ',' )
+        numCommas++;
+      linePos++;
+    }
+  }
+  return numCommas + 1;
 }
 
 void printTable( Table *table )
@@ -171,8 +186,6 @@ void printTable( Table *table )
   {
     for ( i = 0; i < table->numCols; i++ )
     {
-      if ( !(row->values && row->values[0]) )
-        continue;
       colName = table->header->values[i];
       printf( "%20s: %s\n", colName, row->values[i] );
     }
