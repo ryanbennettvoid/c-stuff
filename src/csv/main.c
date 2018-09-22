@@ -2,6 +2,11 @@
 // download `Consumer_Complains.csv`:
 // https://data.consumerfinance.gov/api/views/s6ew-h6mp/rows.csv?accessType=DOWNLOAD
 
+// debugging notes:
+// $ gdb
+// $ file <executable>
+// $ run <inputfile>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -48,12 +53,13 @@ int main( int argc, char *argv[] )
   }
 
   struct Table table;
+  table.header = NULL;
 
   makeTable( &table, f );
 
   assert( table.numRows == 1671954 );
 
-  printTable( &table );
+  // printTable( &table );
 
   printf( "processed %d rows by %d cols\n", table.numRows, table.numCols );
 
@@ -100,7 +106,7 @@ void makeTable( struct Table *table, FILE *file )
       exit( 1 );
     }
 
-    if ( !table->header )
+    if ( table->header == NULL )
       table->header = row; // add as first row
     else
       rowTail->next = row; // add to tail of rows
