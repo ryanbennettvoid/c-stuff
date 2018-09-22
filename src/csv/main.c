@@ -193,8 +193,7 @@ void printTable( Table *table )
 {
 
   Row *row = table->header;
-  int rowNum = 0,
-      i = 0;
+  int i = 0;
   char *colName, userInput;
   while ( row )
   {
