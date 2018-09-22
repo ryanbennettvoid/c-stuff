@@ -98,14 +98,14 @@ void makeTable( struct Table *table, FILE *file )
     Row *row = malloc( sizeof(struct Row) );
     if ( row == NULL )
     {
-      fprintf( stderr, "could not allocate for row" );
+      fprintf( stderr, "could not allocate for row\n" );
       exit( 1 );
     }
 
     row->values = malloc( sizeof(char *) * numCols );
     if ( row->values == NULL )
     {
-      fprintf( stderr, "could not allocate for row->values" );
+      fprintf( stderr, "could not allocate for row->values\n" );
       exit( 1 );
     }
 
@@ -137,7 +137,7 @@ void makeTable( struct Table *table, FILE *file )
               row->values[colIndex] = malloc( sizeof(char) * (strlen(colValue) + 1) );
               if ( row->values[colIndex] == NULL )
               {
-                fprintf( stderr, "could not allocate for row->values[%d]", colIndex );
+                fprintf( stderr, "could not allocate for row->values[%d]\n", colIndex );
                 exit( 1 );
               }
               strcpy( row->values[colIndex], colValue );
@@ -170,8 +170,8 @@ int getNumColumns( FILE *file )
     while ( buffer[linePos] != '\0' )
     {
       if ( buffer[linePos] == ',' )
-        numCommas++;
-      linePos++;
+        ++numCommas;
+      ++linePos;
     }
   }
   return numCommas + 1;
