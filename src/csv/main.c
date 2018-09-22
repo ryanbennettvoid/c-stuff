@@ -10,8 +10,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include <assert.h>
 
+#define COLOR_NORMAL  "\x1B[0m"
+#define COLOR_WHITE  "\x1B[37m"
 #define LINE_BUFFER_SIZE 32384
 
 typedef struct Table
@@ -54,9 +57,18 @@ int main( int argc, char *argv[] )
 
   struct Table table;
   table.header = NULL;
+  clock_t t1 = clock() * 1000 / CLOCKS_PER_SEC;
   makeTable( &table, f );
-  assert( table.numRows == 1671954 );
-  printf( "processed %d rows by %d cols\n", table.numRows, table.numCols );
+  clock_t t2 = clock() * 1000 / CLOCKS_PER_SEC;
+  assert( table.numRows == 1671954 ); // may change
+  printf( 
+    "%s\nprocessed %d rows by %d cols in %lums\n%s",
+    COLOR_WHITE,
+    table.numRows, 
+    table.numCols,
+    t2-t1,
+    COLOR_NORMAL
+  );
 
   printTable( &table );
 
@@ -179,15 +191,21 @@ int getNumColumns( FILE *file )
 
 void printTable( Table *table )
 {
+
   Row *row = table->header;
-  int i;
-  char *colName;
+  int rowNum = 0,
+      i = 0;
+  char *colName, userInput;
   while ( row )
   {
+    printf( "\npress 'return' to show next row\n" );
+    while ( scanf( "%c", &userInput ) == 1 )
+      break;
     for ( i = 0; i < table->numCols; i++ )
     {
       colName = table->header->values[i];
-      printf( "%20s: %s\n", colName, row->values[i] );
+      printf( "%30s: %s\n", colName, row->values[i] );
+      fflush( stdout );
     }
     row = row->next;
   }
