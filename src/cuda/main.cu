@@ -28,31 +28,59 @@ int main()
   int hostInput[N], hostOutput[N];
   int *deviceInput, *deviceOutput;
 
+  cudaError_t err = cudaSuccess;
+
   // allocate arrays on GPU,
   // cuda takes ownership of device pointers
-  cudaMalloc( (void **) &deviceInput, sizeof(int)*N );
-  cudaMalloc( (void **) &deviceOutput, sizeof(int)*N );
+  err = cudaMalloc( (void **) &deviceInput, sizeof(int)*N );
+  if ( err != cudaSuccess )
+  {
+    fprintf( stderr, "could not allocate on GPU\n" );
+  }
+
+  err = cudaMalloc( (void **) &deviceOutput, sizeof(int)*N );
+  if ( err != cudaSuccess )
+  {
+    fprintf( stderr, "could not allocate on GPU\n" );
+  }
 
   // set input values
   for ( int i = 0; i < N; i++ )
     hostInput[i] = i;
 
   // copy input to GPU
-  cudaMemcpy( deviceInput, hostInput, sizeof(int)*N, cudaMemcpyHostToDevice );
+  err = cudaMemcpy( deviceInput, hostInput, sizeof(int)*N, cudaMemcpyHostToDevice );
+  if ( err != cudaSuccess )
+  {
+    fprintf( stderr, "could not copy from hostInput to deviceInput\n" );
+  }
 
   // run GPU code on N threads- one per element
   fn<<<N, 1>>>( deviceInput, deviceOutput );
 
   // copy output from GPU to CPU
-  cudaMemcpy( hostOutput, deviceOutput, sizeof(int)*N, cudaMemcpyDeviceToHost );
+  err = cudaMemcpy( hostOutput, deviceOutput, sizeof(int)*N, cudaMemcpyDeviceToHost );
+  if ( err != cudaSuccess )
+  {
+    fprintf( stderr, "could not copy from deviceOutput to hostOutput\n" );
+  }
 
   for ( int i = 0; i < N; i++ )
   {
     printf( "%d\n", hostOutput[i] );
   }
 
-  cudaFree( deviceInput );
-  cudaFree( deviceOutput );
+  err = cudaFree( deviceInput );
+  if ( err != cudaSuccess )
+  {
+    fprintf( stderr, "could not free deviceInput from GPU: %s\n", cudaGetErrorString(err) );
+  }
+
+  err = cudaFree( deviceOutput );
+  if ( err != cudaSuccess )
+  {
+    fprintf( stderr, "could not free deviceOutput from GPU: %s\n", cudaGetErrorString(err) );
+  }
 
   return 0;
 }
