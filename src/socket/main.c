@@ -68,7 +68,6 @@ Connection: Close\r\n\
     return -1;
   }
 
-  int n;
   // receive response
   int buflen = sizeof(buf) - 1;
   while ( (ret = recv( fd, buf, buflen, 0 )) > 0 )
@@ -78,7 +77,6 @@ Connection: Close\r\n\
     buf[ limit + 1 ] = '\0';
     puts( buf );
     memset( buf, 0, sizeof(buf) );
-    n = 0;
   }
 
   if ( ret < 0 )
