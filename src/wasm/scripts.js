@@ -25,20 +25,20 @@ fetch( filename )
     var n = 42;
 
     // run fibonacci sequence in C
-    const t1 = Date.now();
+    var t1 = Date.now();
     cFunc( n );
-    const t2 = Date.now();
-    const cDur = (t2-t1)/1000;
+    var t2 = Date.now();
+    var cDur = (t2-t1)/1000;
     console.log( 'C func done in ' + cDur + 's' );
 
     // // run fibonacci sequence in JS
-    const t3 = Date.now();
+    var t3 = Date.now();
     jsFunc( n );
-    const t4 = Date.now();
-    const jsDur = (t4-t3)/1000;
+    var t4 = Date.now();
+    var jsDur = (t4-t3)/1000;
     console.log( 'JS func done in ' + jsDur + 's' );
 
-    const ratio = jsDur/cDur;
+    var ratio = jsDur/cDur;
     console.log( 'the C version is ' + ratio.toFixed(3) + 'x faster' );
 
   } )
