@@ -5,6 +5,7 @@
 | --- |---|
 | args | prints arguments passed to the program |
 | bitwise | setting/unsetting bits |
+| bitwise2 | shifting bits |
 | bsearch | stdlib binary search |
 | count-chars | count characters from stdin |
 | csv | deserializes 1.6mil rows from csv |
