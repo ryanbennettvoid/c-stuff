@@ -12,6 +12,7 @@
 | cuda | CUDA parallel calculations demo (broken) |
 | double-pointer | demonstrates use case of double pointer |
 | function-pointer | passes a function as an argument |
+| hash | hashing algo with customizable length and charset |
 | io | reads text from a file |
 | list-of-structs | counts word occurances w/ structs |
 | scanf | formats stdin to typed data |
