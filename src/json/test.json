@@ -1,0 +1,18 @@
+{
+  "anObject": {
+    "prop1": "hello",
+    "prop2": 77,
+    "prop3": 123.44,
+    "nullProp": null,
+    "arrayProp": [
+      "string here",
+      {
+        "key": "object here"
+      },
+      444
+    ]
+  },
+  "anArray": [
+    "anArrayItem"
+  ]
+}

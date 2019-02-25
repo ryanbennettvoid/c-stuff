@@ -12,4 +12,4 @@ if [ ! -d $DIR ]; then
   exit 1
 fi
 
-gcc -O3 -o ./bin/$PROG $DIR/main.c
+gcc -o ./bin/$PROG $DIR/main.c
