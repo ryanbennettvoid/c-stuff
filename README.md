@@ -11,6 +11,7 @@
 | csv | deserializes 1.6mil rows from csv |
 | cuda | CUDA parallel calculations demo (broken) |
 | double-pointer | demonstrates use case of double pointer |
+| fscanf | deserialize objects from file |
 | function-pointer | passes a function as an argument |
 | hash | hashing algo with customizable length and charset |
 | io | reads text from a file |
