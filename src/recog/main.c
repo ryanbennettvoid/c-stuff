@@ -20,13 +20,17 @@ int main()
       magic,
       numImages,
       numRows,
-      numColumns;
+      numColumns,
+      pixelPos
+      ;
 
-  char c;
+  int c;
 
   fseek(fd, 0, SEEK_END);
   end = ftell(fd);
   rewind(fd);
+
+  int* pixels;
 
   while ((pos = ftell(fd)) < end)
   {
@@ -40,11 +44,22 @@ int main()
     } else if (pos < 16) {
       numColumns += (c << ((3-pos) * 8));
     } else {
-      assert(magic == 2051);
-      assert(numImages == 10000);
-      assert(numRows == 28);
-      assert(numColumns == 28);
-      return 0;
+      if (pos == 16) {
+        assert(magic == 2051);
+        assert(numImages == 10000);
+        assert(numRows == 28);
+        assert(numColumns == 28);
+      }
+      printf("%4d,", c);
+      if (pixelPos % numColumns == 0) {
+        // next row
+        putchar('\n');
+      }
+      if (pixelPos % 784 == 0) {
+        // next image
+        putchar('\n');
+      }
+      pixelPos++;
     }
   }
 
